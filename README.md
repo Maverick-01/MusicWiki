@@ -1,5 +1,4 @@
 # MusicWiki
-Music Wiki
 ## Dependencies used in this project.
 * Retrofit - to fetch APIs.
 * Gson - to convert json to java objects.
