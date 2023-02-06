@@ -11,6 +11,8 @@ import com.maverick.musicwiki.models.topArtistAlbum.ArtistTopAlbumModel
 import com.maverick.musicwiki.models.topArtistTracks.ArtistTopTrackModel
 import com.maverick.musicwiki.models.trackModel.TrackModel
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -77,4 +79,19 @@ interface ApiInterface {
         @Query("api_key") apiKey: String = API_KEY,
         @Query("format") format: String = "json"
     ): Response<ArtistInfo>
+
+    companion object {
+        var retrofitService: ApiInterface? = null
+        fun getInstance(): ApiInterface {
+            if (retrofitService == null) {
+                val retrofit = Retrofit.Builder().baseUrl(ApiUtility.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    // we need to add converter factory to
+                    // convert JSON object to Java object
+                    .build()
+                retrofitService = retrofit.create(ApiInterface::class.java)
+            }
+            return retrofitService!!
+        }
+    }
 }
